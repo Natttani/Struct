@@ -2,6 +2,11 @@
 #include <vector>
 #include <string>
 
+enum DeviceType {
+    SmartphoneType = 1,
+    LaptopType
+};
+
 struct Smartphone {
     std::string manufacturer;
     int memory;
@@ -42,18 +47,23 @@ void outputLaptop(const Laptop& laptop) {
         << ", Игровая видеокарта: " << (laptop.hasGamingGPU ? "Да" : "Нет") << std::endl;
 }
 
-void createSmartphones(std::vector<Smartphone>& phones) {
-    Smartphone* phone = new Smartphone;
-    inputSmartphone(phone);
-    phones.push_back(*phone);
-    delete phone;
-}
+void createDevice(std::vector<Smartphone& phones, std::vector<Laptop>& laptops)
+    int deviceType;
+std::cout << "Выберите тип устройства (1 - Смартфон, 2 - Ноутбук): ";
+std::cin >> deviceType;
 
-void createLaptops(std::vector<Laptop>& laptops) {
-    Laptop* laptop = new Laptop;
-    inputLaptop(laptop);
-    laptops.push_back(*laptop);
-    delete laptop;
+if (deviceType == 1) {
+    Smartphone phone;
+    inputSmartphone(&phone);
+    smartphones.push_back(phone);
+}
+else if (deviceType == 2) {
+    Laptop laptop;
+    inputLaptop(&laptop);
+    laptops.push_back(laptop);
+}
+else {
+    std::cout << "Неверный выбор устройства." << std::endl;
 }
 
 int main() {
