@@ -5,7 +5,8 @@
 enum DeviceType {
     SmartphoneType = 1,
     LaptopType,
-    ElectronicBookType
+    ElectronicBookType,
+    MonitorType
 };
 
 struct Smartphone {
@@ -24,6 +25,12 @@ struct ElectronicBook {
     std::string manufacturer;
     int screenSize;
     bool screenBacklight;
+};
+
+struct Monitor {
+    std::string manufacturer;
+    int screenSize;
+    double price;
 };
 
 void inputSmartphone(Smartphone* phone) { //ввод смартфона
@@ -67,9 +74,23 @@ void outputElectronicBook(const ElectronicBook& electronicBook) { //вывод электр
     std::cout << "Электронная книга " << electronicBook.manufacturer << ", Размер экрана: " << electronicBook.screenSize << "Наличие подсветки экрана: " << electronicBook.screenBacklight << std::endl;
 }
 
-void createDevice(std::vector<Smartphone>& smartphones, std::vector<Laptop>& laptops, std::vector<ElectronicBook>& electronicbooks) {  //создание устройств
+void inputMonitor(Monitor* monitor) { //ввод монитора
+    std::cout << "Введите фирму-производителя: ";
+    std::cin >> monitor->manufacturer;
+    std::cout << "Введите размер экрана: ";
+    std::cin >> monitor->screenSize;
+    std::cout << "Введите цену: ";
+    std::cin >> monitor->price;
+}
+
+void outputMonitor(const Monitor& monitor) { //вывод монитора
+    std::cout << "Монитор " << monitor.manufacturer << ", Размер экрана: " << monitor.screenSize
+        << "Цена: " << monitor.price << " руб." << std::endl;
+}
+
+void createDevice(std::vector<Smartphone>& smartphones, std::vector<Laptop>& laptops, std::vector<ElectronicBook>& electronicbooks, std::vector<Monitor>& monitores) {  //создание устройств
     int deviceType;
-    std::cout << "Выберите тип устройства (1 - Смартфон, 2 - Ноутбук, 3 - Электронная книга): ";
+    std::cout << "Выберите тип устройства (1 - Смартфон, 2 - Ноутбук, 3 - Электронная книга, 4 - Монитор): ";
     std::cin >> deviceType;
 
     if (deviceType == 1) {
@@ -87,6 +108,11 @@ void createDevice(std::vector<Smartphone>& smartphones, std::vector<Laptop>& lap
         inputElectronicBook(&electronicbook);
         electronicbooks.push_back(electronicbook);
     }
+    else if (deviceType == 4) {
+        Monitor monitor;
+        inputMonitor(&monitor);
+        monitores.push_back(monitor);
+    }
     else {
         std::cout << "Неверный выбор устройства." << std::endl;
     }
@@ -96,17 +122,19 @@ int main() {
     std::vector<Smartphone> smartphones;
     std::vector<Laptop> laptops;
     std::vector<ElectronicBook> electronicbooks;
+    std::vector<Monitor> monitores;
     int choice;
 
     do {
-        std::cout << "1. Ввод устройства\n2. Вывод смартфонов\n3. Вывод ноутбуков\n4. Вывод электронных книг\n0. Выход\nВыберите действие: ";
+        std::cout << "1. Ввод устройства\n2. Вывод смартфонов\n3. Вывод ноутбуков\n4. Вывод электронных книг\n5. Вывод мониторов\n0. Выход\nВыберите действие: ";
         std::cin >> choice;
 
         switch (choice) {
-        case 1: createDevice(smartphones, laptops, electronicbooks); break; // вызов createDevice для всех типов
+        case 1: createDevice(smartphones, laptops, electronicbooks, monitores); break; // вызов createDevice для всех типов
         case 2: for (const auto& phone : smartphones) outputSmartphone(phone); break;
         case 3: for (const auto& laptop : laptops) outputLaptop(laptop); break;
         case 4: for (const auto& electronicbook : electronicbooks) outputElectronicBook(electronicbook); break;
+        case 5: for (const auto& monitor : monitores) outputMonitor(monitor); break;
         }
     } while (choice != 0);
 
